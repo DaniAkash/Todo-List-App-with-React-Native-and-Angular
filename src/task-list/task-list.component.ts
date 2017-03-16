@@ -9,7 +9,7 @@ import { TASKS } from '../data/TASKS';
   template: `
 <View [styleSheet]="styles.container">
   <View [style]="{width: 200, height: 45}">
-    <TextInput placeholder="New Input" (submit)="input=$event"></TextInput>
+    <TextInput placeholder="Add new Task" (submit)="input=$event"></TextInput>
   </View>
   <Text>{{input}}</Text>
   <Text [styleSheet]="styles.welcome">
