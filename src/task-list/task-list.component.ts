@@ -8,11 +8,15 @@ import { TASKS } from '../data/TASKS';
   host: {position: 'absolute', top: '0', left: '0', bottom: '0', right: '0'},
   template: `
 <View [styleSheet]="styles.container">
+  <View [style]="{width: 200, height: 45}">
+    <TextInput placeholder="New Input" (submit)="input=$event"></TextInput>
+  </View>
+  <Text>{{input}}</Text>
   <Text [styleSheet]="styles.welcome">
     ToDoList
   </Text>
   <Text *ngFor="let task of tasks; let listIndex = index" [styleSheet]="styles.instructions">
-    {{task.name}}
+    {{listIndex+1}}. {{task.name}}
   </Text>
   <Text [styleSheet]="styles.button" opacityFeedback (tap)="showMore=!showMore" testID="Show_More">
     {{showMore ? 'Hide more' : 'Show more'}}
@@ -26,6 +30,7 @@ import { TASKS } from '../data/TASKS';
 `
 })
 export class TaskList {
+  input: string = "";
   angularLogo: any = require('../assets/angular.png');
   reactLogo: any = require('../assets/react.png');
   tasks:Task[] = TASKS;

@@ -11,6 +11,6 @@ import { TASKS } from './data/TASKS';
 `
 })
 export class HelloApp {
-
+  typed: string = "";
 }
 
