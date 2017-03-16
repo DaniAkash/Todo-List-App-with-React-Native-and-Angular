@@ -1,5 +1,7 @@
 import {Component} from '@angular/core';
 import {StyleSheet} from 'react-native';
+import { Task } from './dataTypes/Task';
+import { TASKS } from './data/TASKS';
 
 @Component({
   selector: 'hello-app',
@@ -9,8 +11,8 @@ import {StyleSheet} from 'react-native';
   <Text [styleSheet]="styles.welcome">
     Welcome to angular2-react-native!
   </Text>
-  <Text [styleSheet]="styles.instructions">
-    To show the dev menu, shake the device or press menu button on Android, or cmd + D on iOS
+  <Text *ngFor="let task of tasks; let listIndex = index" [styleSheet]="styles.instructions">
+    {{task.name}}
   </Text>
   <Text [styleSheet]="styles.button" opacityFeedback (tap)="showMore=!showMore" testID="Show_More">
     {{showMore ? 'Hide more' : 'Show more'}}
@@ -26,6 +28,7 @@ import {StyleSheet} from 'react-native';
 export class HelloApp {
   angularLogo: any = require('./assets/angular.png');
   reactLogo: any = require('./assets/react.png');
+  tasks:Task[] = TASKS;
   showMore: boolean = false;
   styles: any;
   constructor() {
