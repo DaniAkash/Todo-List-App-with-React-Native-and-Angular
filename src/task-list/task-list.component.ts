@@ -2,22 +2,24 @@ import {Component} from '@angular/core';
 import {StyleSheet} from 'react-native';
 import { Task } from '../dataTypes/Task';
 import { TASKS } from '../data/TASKS';
+import { TaskService } from "../task.service";
 
 @Component({
   selector: 'task-list',
   host: {position: 'absolute', top: '0', left: '0', bottom: '0', right: '0'},
   template: `
 <View [styleSheet]="styles.container">
-  <View [style]="{width: 200, height: 45}">
-    <TextInput placeholder="Add new Task" (submit)="input=$event"></TextInput>
-  </View>
-  <Text>{{input}}</Text>
-  <Text [styleSheet]="styles.welcome">
+  <Text [styleSheet]="styles.heading">
     ToDoList
   </Text>
-  <Text *ngFor="let task of tasks; let listIndex = index" [styleSheet]="styles.instructions">
-    {{listIndex+1}}. {{task.name}}
-  </Text>
+  <View [style]="{width: 200, height: 45}">
+    <TextInput placeholder="Add new Task" (submit)="addTask($event)" clearTextOnFocus={{true}}></TextInput>
+  </View>
+  <View [styleSheet]="styles.taskView" *ngFor="let task of tasks; let listIndex = index">
+    <Text [styleSheet]="styles.instructions">
+      {{listIndex+1}}. {{task.name}}
+    </Text>
+  </View>
   <Text [styleSheet]="styles.button" opacityFeedback (tap)="showMore=!showMore" testID="Show_More">
     {{showMore ? 'Hide more' : 'Show more'}}
   </Text>
@@ -30,13 +32,15 @@ import { TASKS } from '../data/TASKS';
 `
 })
 export class TaskList {
-  input: string = "";
   angularLogo: any = require('../assets/angular.png');
   reactLogo: any = require('../assets/react.png');
-  tasks:Task[] = TASKS;
+  tasks:Task[] = [];
   showMore: boolean = false;
   styles: any;
-  constructor() {
+
+  constructor(
+    private taskService: TaskService
+  ) {
     this.styles = StyleSheet.create({
       container: {
         position: 'absolute',
@@ -44,14 +48,25 @@ export class TaskList {
         right:0,
         top: 0,
         bottom: 0,
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
         backgroundColor: '#F5FCFF',
       },
-      welcome: {
+      taskView: {
+        backgroundColor: 'whitesmoke',
+        marginBottom: 5,
+        padding: 15,
+        width: 300,
+      },
+      heading: {
         fontSize: 20,
         textAlign: 'center',
         margin: 10,
+        marginTop: 40,
+      },
+      inputView: {
+        width: 300, 
+        height: 45,
       },
       instructions: {
         textAlign: 'center',
@@ -75,6 +90,17 @@ export class TaskList {
         bottom: 0
       }
     });
+  }
+
+  ngOnInit(): void {
+    this.tasks = this.taskService.getTasks();
+  }
+
+  addTask(taskName: string): void {
+    if(taskName === "") alert('Please enter a task name!');
+    else
+      this.taskService.addTask(taskName);
+    taskName = "";
   }
 }
 
