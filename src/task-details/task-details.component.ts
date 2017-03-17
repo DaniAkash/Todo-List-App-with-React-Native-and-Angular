@@ -10,14 +10,14 @@ import { TaskService } from "../task.service";
   template: `
 <View [styleSheet]="styles.container">
   <Text [styleSheet]="styles.heading">
-    ToDoList
+    Details
   </Text>
   <View [style]="{width: 200, height: 45}">
     <TextInput placeholder="Add new Task" (submit)="addTask($event)" clearTextOnFocus={{true}}></TextInput>
   </View>
   <View [styleSheet]="styles.taskView" *ngFor="let task of tasks; let listIndex = index">
     <View></View>
-    <Text [styleSheet]="styles.instructions" [routerLink]="['/details', listIndex]" event="tap">
+    <Text [styleSheet]="styles.instructions">
       {{task.name}}
     </Text>
     <View [styleSheet]="styles.deleteButton" opacityFeedback (tap)="deleteTask(listIndex)">
@@ -33,7 +33,9 @@ import { TaskService } from "../task.service";
 </View>
 `
 })
-export class TaskList {
+export class TaskDetails {
+  angularLogo: any = require('../assets/angular.png');
+  reactLogo: any = require('../assets/react.png');
   tasks:Task[] = [];
   showMore: boolean = false;
   styles: any;
@@ -89,6 +91,13 @@ export class TaskList {
         padding: 10,
         margin: 20,
         color: 'white'
+      },
+      image: {
+        height: 100,
+        width: 100,
+        overflow: 'hidden',
+        position: 'absolute',
+        bottom: 0
       }
     });
   }
