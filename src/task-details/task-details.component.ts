@@ -1,5 +1,8 @@
-import {Component} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
+import {LocationStrategy, Location} from '@angular/common';
 import {StyleSheet} from 'react-native';
+import { ActivatedRoute, Params, Router } from "@angular/router";
+
 import { Task } from '../dataTypes/Task';
 import { TASKS } from '../data/TASKS';
 import { TaskService } from "../task.service";
@@ -10,38 +13,23 @@ import { TaskService } from "../task.service";
   template: `
 <View [styleSheet]="styles.container">
   <Text [styleSheet]="styles.heading">
-    Details
-  </Text>
-  <View [style]="{width: 200, height: 45}">
-    <TextInput placeholder="Add new Task" (submit)="addTask($event)" clearTextOnFocus={{true}}></TextInput>
-  </View>
-  <View [styleSheet]="styles.taskView" *ngFor="let task of tasks; let listIndex = index">
-    <View></View>
-    <Text [styleSheet]="styles.instructions">
-      {{task.name}}
-    </Text>
-    <View [styleSheet]="styles.deleteButton" opacityFeedback (tap)="deleteTask(listIndex)">
-      <Text>delete</Text>
-    </View>
-  </View>
-  <Text [styleSheet]="styles.button" opacityFeedback (tap)="showMore=!showMore" testID="Show_More">
-    {{showMore ? 'Hide more' : 'Show more'}}
-  </Text>
-  <Text *ngIf="showMore" [styleSheet]="styles.instructions">
-    To get really more, it's time to start coding!
+    Details {{task.name}}
   </Text>
 </View>
 `
 })
-export class TaskDetails {
-  angularLogo: any = require('../assets/angular.png');
-  reactLogo: any = require('../assets/react.png');
-  tasks:Task[] = [];
-  showMore: boolean = false;
+export class TaskDetails implements OnInit {
+  @Input()
+  task:Task;
+
   styles: any;
 
   constructor(
-    private taskService: TaskService
+    private taskService: TaskService,
+    private locationStrategy: LocationStrategy,
+    private location: Location,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
     this.styles = StyleSheet.create({
       container: {
@@ -103,18 +91,10 @@ export class TaskDetails {
   }
 
   ngOnInit(): void {
-    this.tasks = this.taskService.getTasks();
+    this.route.params.subscribe((params: Params) => {
+      this.task = this.taskService.getTask(+params['id']);
+    });
   }
 
-  addTask(taskName: string): void {
-    if(taskName === "") alert('Please enter a task name!');
-    else
-      this.taskService.addTask(taskName);
-    taskName = "";
-  }
-
-  deleteTask(id: number): void {
-    this.taskService.deleteTask(id);
-  }
 }
 

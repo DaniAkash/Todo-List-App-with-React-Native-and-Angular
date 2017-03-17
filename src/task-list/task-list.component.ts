@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {StyleSheet} from 'react-native';
 import { Task } from '../dataTypes/Task';
 import { TASKS } from '../data/TASKS';
@@ -33,7 +33,7 @@ import { TaskService } from "../task.service";
 </View>
 `
 })
-export class TaskList {
+export class TaskList implements OnInit {
   tasks:Task[] = [];
   showMore: boolean = false;
   styles: any;
