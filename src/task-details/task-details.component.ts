@@ -15,9 +15,8 @@ import { TaskService } from "../task.service";
   <Text [styleSheet]="styles.heading">
     {{task.name}}
   </Text>
-  <View [styleSheet]="styles.backButton" opacityFeedback (tap)="goBack()">
-    <Text>Back</Text>
-  </View>
+  <Image [source]="backIcon" [styleSheet]="styles.backButton" opacityFeedback (tap)="goBack()">
+  </Image>
   <View [styleSheet]="styles.details">
     <Text>Priority - {{task.priority}}</Text>
   </View>
@@ -28,6 +27,7 @@ export class TaskDetails implements OnInit {
   @Input()
   task:Task;
 
+  backIcon: any = require('../assets/left-arrow.png');
   styles: any;
 
   constructor(
@@ -56,7 +56,8 @@ export class TaskDetails implements OnInit {
       },
       backButton: {
         alignSelf: 'flex-start',
-        backgroundColor: 'blue',
+        height: 25,
+        width: 25,
         marginLeft: 20,
         padding: 10,
       },

@@ -13,23 +13,16 @@ import { TaskService } from "../task.service";
     ToDoList
   </Text>
   <View [style]="{width: 200, height: 45}">
-    <TextInput placeholder="Add new Task" (submit)="addTask($event)" clearTextOnFocus={{true}}></TextInput>
+    <TextInput placeholder="Add new Task" (submit)="addTask($event)" [clearTextOnFocus]="true"></TextInput>
   </View>
   <View [styleSheet]="styles.taskView" *ngFor="let task of tasks; let listIndex = index">
     <View></View>
     <Text [styleSheet]="styles.instructions" [routerLink]="['/details', listIndex]" event="tap">
       {{task.name}}
     </Text>
-    <View [styleSheet]="styles.deleteButton" opacityFeedback (tap)="deleteTask(listIndex)">
-      <Text>delete</Text>
-    </View>
+    <Image [source]="deleteIcon" [styleSheet]="styles.deleteButton" opacityFeedback (tap)="deleteTask(listIndex)">
+    </Image>
   </View>
-  <Text [styleSheet]="styles.button" opacityFeedback (tap)="showMore=!showMore" testID="Show_More">
-    {{showMore ? 'Hide more' : 'Show more'}}
-  </Text>
-  <Text *ngIf="showMore" [styleSheet]="styles.instructions">
-    To get really more, it's time to start coding!
-  </Text>
 </View>
 `
 })
@@ -37,6 +30,7 @@ export class TaskList implements OnInit {
   tasks:Task[] = [];
   showMore: boolean = false;
   styles: any;
+  deleteIcon: any = require('../assets/delete.png');
 
   constructor(
     private taskService: TaskService
@@ -62,9 +56,9 @@ export class TaskList implements OnInit {
         alignItems: 'center',
       },
       deleteButton: {
-        backgroundColor: 'red',
         padding: 5,
-        borderRadius: 100,
+        height: 25,
+        width:25,
       },
       heading: {
         fontSize: 20,
@@ -76,20 +70,6 @@ export class TaskList implements OnInit {
         width: 300, 
         height: 45,
       },
-      instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
-      },
-      button: {
-        width: 100,
-        textAlign: 'center',
-        textAlignVertical: 'center',
-        backgroundColor: '#32BAF5',
-        padding: 10,
-        margin: 20,
-        color: 'white'
-      }
     });
   }
 
