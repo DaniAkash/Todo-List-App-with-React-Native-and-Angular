@@ -16,9 +16,13 @@ import { TaskService } from "../task.service";
     <TextInput placeholder="Add new Task" (submit)="addTask($event)" clearTextOnFocus={{true}}></TextInput>
   </View>
   <View [styleSheet]="styles.taskView" *ngFor="let task of tasks; let listIndex = index">
+    <View></View>
     <Text [styleSheet]="styles.instructions">
-      {{listIndex+1}}. {{task.name}}
+      {{task.name}}
     </Text>
+    <View [styleSheet]="styles.deleteButton" opacityFeedback (tap)="deleteTask(listIndex)">
+      <Text>delete</Text>
+    </View>
   </View>
   <Text [styleSheet]="styles.button" opacityFeedback (tap)="showMore=!showMore" testID="Show_More">
     {{showMore ? 'Hide more' : 'Show more'}}
@@ -57,6 +61,14 @@ export class TaskList {
         marginBottom: 5,
         padding: 15,
         width: 300,
+        flexDirection: 'row',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+      },
+      deleteButton: {
+        backgroundColor: 'red',
+        padding: 5,
+        borderRadius: 100,
       },
       heading: {
         fontSize: 20,
@@ -101,6 +113,10 @@ export class TaskList {
     else
       this.taskService.addTask(taskName);
     taskName = "";
+  }
+
+  deleteTask(id: number): void {
+    this.taskService.deleteTask(id);
   }
 }
 
