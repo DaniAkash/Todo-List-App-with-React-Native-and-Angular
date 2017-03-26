@@ -1,6 +1,9 @@
-# angular2-react-native-seed
+# Todo-List App with React Native and Angular
+This is a todo list application built with [angular2-react-native-seed][seed] project which uses [react-native-renderer][renderer] to build React Native applications using Angular2.
 
-A seed project to create a native mobile application with Angular 2 and React Native
+> This app was used as the demo app for my talk "Building React Native applications with Angular 2" in [React Native Chennai][meetup] meetup.
+
+this app is built for iOS and is never tested with android
 
 ## General documentation
 http://angular.github.io/react-native-renderer/
@@ -70,5 +73,13 @@ Build the application: `./scripts/build_app_android.sh`
 Then open 2 terminals:
 * In the first: `appium`
 * In the second: `protractor protractor.conf.android.ci.js`
+ 
 
+License
+----
 
+MIT
+
+   [seed]: <http://angular.github.io/react-native-renderer/>
+   [renderer]: <http://angular.github.io/react-native-renderer/>
+   [meetup]: <https://www.meetup.com/React-Native-Chennai/events/238234740/>
